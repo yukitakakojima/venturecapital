@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VC Portfolio Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-mark">◆</span>
+        <div>
+          <div class="firm-name" id="firm-name" contenteditable="true" title="Click to edit">Apex Ventures</div>
+          <div class="firm-subtitle">Portfolio Dashboard</div>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span id="last-updated"></span>
+        <button class="btn-primary" onclick="openAddModal()">+ Add Company</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Summary Cards -->
+    <section class="summary-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Invested</div>
+        <div class="stat-value" id="total-invested">—</div>
+        <div class="stat-sub" id="num-companies">— companies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Portfolio Value</div>
+        <div class="stat-value" id="portfolio-value">—</div>
+        <div class="stat-sub" id="value-change"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total MOIC</div>
+        <div class="stat-value" id="total-moic">—</div>
+        <div class="stat-sub">multiple on invested capital</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Unrealized Gain</div>
+        <div class="stat-value" id="unrealized-gain">—</div>
+        <div class="stat-sub" id="gain-pct"></div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Portfolio Allocation</div>
+        <div class="chart-wrap">
+          <canvas id="allocationChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card chart-card--wide">
+        <div class="chart-title">Value vs. Investment by Company</div>
+        <div class="chart-wrap chart-wrap--bar">
+          <canvas id="performanceChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Companies -->
+    <section class="portfolio-section">
+      <div class="section-header">
+        <h2>Portfolio Companies</h2>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Seed">Seed</button>
+          <button class="filter-btn" data-filter="Series A">Series A</button>
+          <button class="filter-btn" data-filter="Series B">Series B</button>
+          <button class="filter-btn" data-filter="Growth">Growth</button>
+        </div>
+      </div>
+      <div class="companies-grid" id="companies-grid"></div>
+    </section>
+  </main>
+
+  <!-- Company Card Template (hidden) -->
+  <template id="company-card-template">
+    <div class="company-card" data-id="">
+      <div class="card-header">
+        <div class="company-logo-wrap">
+          <div class="company-logo"></div>
+        </div>
+        <div class="card-title-group">
+          <div class="company-name"></div>
+          <div class="company-sector"></div>
+        </div>
+        <div class="card-badges">
+          <span class="badge badge-stage"></span>
+          <span class="badge badge-status"></span>
+        </div>
+        <button class="card-menu-btn" onclick="openEditModal(this)">⋮</button>
+      </div>
+      <div class="card-metrics">
+        <div class="metric">
+          <div class="metric-label">Invested</div>
+          <div class="metric-value invested-val"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Current Value</div>
+          <div class="metric-value current-val"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">MOIC</div>
+          <div class="metric-value moic-val"></div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Ownership</div>
+          <div class="metric-value ownership-val"></div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="invest-date"></span>
+        <div class="moic-bar-wrap">
+          <div class="moic-bar"></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Add/Edit Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Company</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <form id="company-form" onsubmit="saveCompany(event)">
+        <input type="hidden" id="edit-id" />
+        <div class="form-grid">
+          <div class="form-group form-group--full">
+            <label>Company Name</label>
+            <input type="text" id="f-name" required placeholder="e.g. Acme Corp" />
+          </div>
+          <div class="form-group">
+            <label>Sector</label>
+            <input type="text" id="f-sector" required placeholder="e.g. AI/ML, FinTech" />
+          </div>
+          <div class="form-group">
+            <label>Stage</label>
+            <select id="f-stage">
+              <option>Seed</option>
+              <option>Series A</option>
+              <option>Series B</option>
+              <option>Growth</option>
+              <option>Pre-IPO</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="f-status">
+              <option>Active</option>
+              <option>Watchlist</option>
+              <option>Exited</option>
+              <option>Written Off</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Investment Date</label>
+            <input type="date" id="f-date" required />
+          </div>
+          <div class="form-group">
+            <label>Amount Invested ($)</label>
+            <input type="number" id="f-invested" required min="0" placeholder="e.g. 500000" />
+          </div>
+          <div class="form-group">
+            <label>Current Value ($)</label>
+            <input type="number" id="f-value" required min="0" placeholder="e.g. 1500000" />
+          </div>
+          <div class="form-group">
+            <label>Ownership (%)</label>
+            <input type="number" id="f-ownership" min="0" max="100" step="0.1" placeholder="e.g. 12.5" />
+          </div>
+          <div class="form-group form-group--full">
+            <label>Notes</label>
+            <textarea id="f-notes" rows="2" placeholder="Any notes about this investment…"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-danger" id="delete-btn" onclick="deleteCompany()" style="display:none">Delete</button>
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
