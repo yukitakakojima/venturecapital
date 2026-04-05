@@ -1,5 +1,29 @@
 'use strict';
 
+// ===== Password Gate =====
+// Change this to your own password:
+const PASSWORD = 'ventures2024';
+
+function checkPassword(e) {
+  e.preventDefault();
+  const input = document.getElementById('gate-input').value;
+  const errEl = document.getElementById('gate-error');
+  if (input === PASSWORD) {
+    sessionStorage.setItem('vc-auth', '1');
+    document.getElementById('password-gate').classList.add('hidden');
+    errEl.classList.remove('visible');
+  } else {
+    errEl.classList.add('visible');
+    document.getElementById('gate-input').value = '';
+    document.getElementById('gate-input').focus();
+  }
+}
+
+// Skip gate if already authenticated this session
+if (sessionStorage.getItem('vc-auth') === '1') {
+  document.getElementById('password-gate').classList.add('hidden');
+}
+
 // ===== Default portfolio data (7 companies) =====
 const DEFAULT_COMPANIES = [
   {

@@ -8,6 +8,21 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
+
+  <!-- Password Gate -->
+  <div id="password-gate">
+    <div class="gate-box">
+      <div class="gate-logo">◆</div>
+      <div class="gate-title">Apex Ventures</div>
+      <div class="gate-sub">Portfolio Dashboard</div>
+      <form onsubmit="checkPassword(event)">
+        <input type="password" id="gate-input" placeholder="Enter password" autocomplete="current-password" />
+        <div id="gate-error">Incorrect password</div>
+        <button type="submit">Unlock</button>
+      </form>
+    </div>
+  </div>
+
   <header>
     <div class="header-inner">
       <div class="logo">
