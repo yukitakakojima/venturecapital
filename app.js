@@ -4,7 +4,7 @@
 const DEFAULT_COMPANIES = [
   {
     id: 1, name: 'Ellipsis Health', sector: 'Digital Health', stage: 'Seed', status: 'Active',
-    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, valuation: 0, notes: '', events: [],
     investors: [
       { name: 'Khosla Ventures', logo: 'https://www.google.com/s2/favicons?domain=khoslaventures.com&sz=64' },
       { name: 'CVS Health Ventures', logo: 'https://www.google.com/s2/favicons?domain=cvshealth.com&sz=64' },
@@ -16,7 +16,7 @@ const DEFAULT_COMPANIES = [
   },
   {
     id: 2, name: 'Leash Bio', sector: 'Biotech', stage: 'Seed', status: 'Active',
-    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, valuation: 0, notes: '', events: [],
     investors: [
       { name: 'Springtide Ventures', logo: 'https://www.google.com/s2/favicons?domain=springtide.vc&sz=64' },
       { name: 'Mitsui Global Investment', logo: 'https://www.google.com/s2/favicons?domain=mitsui.com&sz=64' },
@@ -25,7 +25,7 @@ const DEFAULT_COMPANIES = [
   },
   {
     id: 3, name: 'Stately Bio', sector: 'Biotech', stage: 'Seed', status: 'Active',
-    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, valuation: 0, notes: '', events: [],
     investors: [
       { name: 'AIX Ventures', logo: 'https://www.google.com/s2/favicons?domain=aixventures.com&sz=64' },
       { name: 'Dimension Capital', logo: 'https://www.google.com/s2/favicons?domain=dimensioncapital.com&sz=64' },
@@ -36,7 +36,7 @@ const DEFAULT_COMPANIES = [
   },
   {
     id: 4, name: 'Waypoint Bio', sector: 'Biotech', stage: 'Seed', status: 'Active',
-    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, valuation: 0, notes: '', events: [],
     investors: [
       { name: 'Hummingbird Ventures', logo: 'https://www.google.com/s2/favicons?domain=hummingbird.vc&sz=64' },
       { name: 'Fifty Years', logo: 'https://www.google.com/s2/favicons?domain=fifty.vc&sz=64' },
@@ -47,7 +47,7 @@ const DEFAULT_COMPANIES = [
   },
   {
     id: 5, name: 'Tacit Therapeutics', sector: 'Therapeutics', stage: 'Seed', status: 'Active',
-    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, valuation: 0, notes: '', events: [],
     investors: [
       { name: 'Civilization Ventures', logo: 'https://www.google.com/s2/favicons?domain=civ.vc&sz=64' },
       { name: 'KdT Ventures', logo: 'https://www.google.com/s2/favicons?domain=kdtventures.com&sz=64' },
@@ -58,7 +58,7 @@ const DEFAULT_COMPANIES = [
   },
   {
     id: 6, name: 'Rhino FCP', sector: 'Biotech', stage: 'Seed', status: 'Active',
-    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, valuation: 0, notes: '', events: [],
     investors: [
       { name: 'AlleyCorp', logo: 'https://www.google.com/s2/favicons?domain=alleycorp.com&sz=64' },
       { name: 'LionBird', logo: 'https://www.google.com/s2/favicons?domain=lionbird.vc&sz=64' },
@@ -280,7 +280,8 @@ function renderCards() {
 
     clone.querySelector('.invested-val').textContent  = fmtMoney(company.invested);
     clone.querySelector('.current-val').textContent   = fmtMoney(company.value);
-    clone.querySelector('.ownership-val').textContent = company.ownership > 0 ? company.ownership.toFixed(1) + '%' : '—';
+    clone.querySelector('.ownership-val').textContent  = company.ownership > 0 ? company.ownership.toFixed(1) + '%' : '—';
+    clone.querySelector('.valuation-val').textContent  = company.valuation > 0 ? fmtMoney(company.valuation) : '—';
     clone.querySelector('.invest-date').textContent   = 'Invested ' + fmtDate(company.date);
 
     const moicEl = clone.querySelector('.moic-val');
@@ -453,7 +454,8 @@ function openEditModal(btn) {
   document.getElementById('f-date').value    = co.date;
   document.getElementById('f-invested').value = co.invested;
   document.getElementById('f-value').value   = co.value;
-  document.getElementById('f-ownership').value = co.ownership;
+  document.getElementById('f-ownership').value  = co.ownership;
+  document.getElementById('f-valuation').value  = co.valuation || '';
   document.getElementById('f-notes').value   = co.notes || '';
   clearEventsList();
   (co.events || []).forEach(ev => addEventRow(ev.date, ev.label));
@@ -479,7 +481,8 @@ function saveCompany(e) {
     date:      document.getElementById('f-date').value,
     invested:  parseFloat(document.getElementById('f-invested').value) || 0,
     value:     parseFloat(document.getElementById('f-value').value) || 0,
-    ownership: parseFloat(document.getElementById('f-ownership').value) || 0,
+    ownership:  parseFloat(document.getElementById('f-ownership').value)  || 0,
+    valuation:  parseFloat(document.getElementById('f-valuation').value)  || 0,
     notes:     document.getElementById('f-notes').value.trim(),
     events:    collectEvents(),
     investors: collectLogos('investors-list'),

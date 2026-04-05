@@ -391,7 +391,7 @@ main {
 
 .card-metrics {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
   border-top: 1px solid var(--border);
   padding-top: 1rem;
