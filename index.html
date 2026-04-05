@@ -132,9 +132,15 @@
         </div>
       </div>
       <div class="card-footer">
-        <span class="invest-date"></span>
-        <div class="moic-bar-wrap">
-          <div class="moic-bar"></div>
+        <div class="timeline-wrap">
+          <div class="timeline-labels">
+            <span class="invest-date"></span>
+            <span class="today-label">Today</span>
+          </div>
+          <div class="timeline-track">
+            <div class="timeline-fill"></div>
+            <div class="timeline-dots"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -196,6 +202,11 @@
           <div class="form-group form-group--full">
             <label>Notes</label>
             <textarea id="f-notes" rows="2" placeholder="Any notes about this investment…"></textarea>
+          </div>
+          <div class="form-group form-group--full">
+            <label>Notable Events</label>
+            <div id="events-list"></div>
+            <button type="button" class="btn-add-event" onclick="addEventRow()">+ Add Event</button>
           </div>
         </div>
         <div class="form-actions">

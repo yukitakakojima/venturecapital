@@ -37,6 +37,11 @@ const DEFAULT_COMPANIES = [
     value: 9800000,
     ownership: 14.5,
     notes: 'Leading AI workflow automation platform. ARR growing 3× YoY.',
+    events: [
+      { date: '2022-03-15', label: 'Series A closed' },
+      { date: '2022-10-01', label: 'Hit $1M ARR' },
+      { date: '2023-07-14', label: 'Launched v2.0' },
+    ],
   },
   {
     id: 2,
@@ -49,6 +54,10 @@ const DEFAULT_COMPANIES = [
     value: 1800000,
     ownership: 18.0,
     notes: 'Modular solar + battery units for emerging markets.',
+    events: [
+      { date: '2023-01-10', label: 'Seed closed' },
+      { date: '2023-09-05', label: 'First pilot deployment' },
+    ],
   },
   {
     id: 3,
@@ -61,6 +70,12 @@ const DEFAULT_COMPANIES = [
     value: 22000000,
     ownership: 9.2,
     notes: 'Remote patient monitoring. FDA cleared, 200+ hospital partnerships.',
+    events: [
+      { date: '2021-07-22', label: 'Initial investment' },
+      { date: '2022-03-18', label: 'FDA clearance' },
+      { date: '2023-01-10', label: '100th hospital partner' },
+      { date: '2024-02-01', label: 'Series B closed' },
+    ],
   },
   {
     id: 4,
@@ -73,6 +88,10 @@ const DEFAULT_COMPANIES = [
     value: 2800000,
     ownership: 11.0,
     notes: 'Zero-trust data security. Sales cycle longer than projected.',
+    events: [
+      { date: '2022-09-05', label: 'Series A closed' },
+      { date: '2023-04-20', label: 'New CRO hired' },
+    ],
   },
   {
     id: 5,
@@ -85,6 +104,10 @@ const DEFAULT_COMPANIES = [
     value: 1400000,
     ownership: 22.5,
     notes: 'Satellite-powered supply chain visibility for remote regions.',
+    events: [
+      { date: '2023-06-18', label: 'Seed closed' },
+      { date: '2024-01-09', label: 'First enterprise contract' },
+    ],
   },
   {
     id: 6,
@@ -97,6 +120,11 @@ const DEFAULT_COMPANIES = [
     value: 7500000,
     ownership: 8.5,
     notes: 'Non-invasive BCI for neurological rehabilitation. Phase II trials ongoing.',
+    events: [
+      { date: '2022-11-30', label: 'Series A closed' },
+      { date: '2023-08-15', label: 'Phase II trials started' },
+      { date: '2024-06-01', label: 'Positive interim data' },
+    ],
   },
   {
     id: 7,
@@ -109,6 +137,11 @@ const DEFAULT_COMPANIES = [
     value: 3200000,
     ownership: 0,
     notes: 'Successfully exited via acquisition by Coinbase in Q3 2024. 8× return.',
+    events: [
+      { date: '2021-04-12', label: 'Seed closed' },
+      { date: '2022-11-01', label: 'Series A (follow-on)' },
+      { date: '2024-08-20', label: 'Acquired by Coinbase' },
+    ],
   },
 ];
 
@@ -330,9 +363,21 @@ function renderCards() {
     else if (moic >= 1) moicEl.classList.add('moic-neutral');
     else                moicEl.classList.add('moic-negative');
 
-    // MOIC bar: scale relative to best performer, max 100%
-    const barPct = Math.min((moic / maxMoic) * 100, 100);
-    clone.querySelector('.moic-bar').style.width = barPct + '%';
+    // Timeline event dots
+    const today     = Date.now();
+    const startTime = new Date(company.date + 'T00:00:00').getTime();
+    const span      = today - startTime;
+    const dotsEl    = clone.querySelector('.timeline-dots');
+
+    (company.events || []).forEach(ev => {
+      const evTime = new Date(ev.date + 'T00:00:00').getTime();
+      const pct    = Math.min(Math.max(((evTime - startTime) / span) * 100, 0), 100);
+      const dot    = document.createElement('div');
+      dot.className = 'event-dot';
+      dot.style.left = pct + '%';
+      dot.innerHTML  = `<div class="event-tooltip"><div class="tooltip-label">${ev.label}</div><div class="tooltip-date">${fmtDate(ev.date)}</div></div>`;
+      dotsEl.appendChild(dot);
+    });
 
     grid.appendChild(clone);
   });
@@ -348,6 +393,31 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
+// ===== Events modal helpers =====
+function clearEventsList() {
+  document.getElementById('events-list').innerHTML = '';
+}
+
+function addEventRow(date = '', label = '') {
+  const row = document.createElement('div');
+  row.className = 'event-row';
+  row.innerHTML = `
+    <input type="date" class="ev-date" value="${date}" />
+    <input type="text" class="ev-label" placeholder="e.g. Series A closed" value="${label}" />
+    <button type="button" class="btn-remove-event" onclick="this.closest('.event-row').remove()">✕</button>
+  `;
+  document.getElementById('events-list').appendChild(row);
+}
+
+function collectEvents() {
+  return Array.from(document.querySelectorAll('.event-row'))
+    .map(row => ({
+      date:  row.querySelector('.ev-date').value,
+      label: row.querySelector('.ev-label').value.trim(),
+    }))
+    .filter(ev => ev.date && ev.label);
+}
+
 // ===== Modal =====
 function openAddModal() {
   editingId = null;
@@ -356,6 +426,7 @@ function openAddModal() {
   document.getElementById('edit-id').value = '';
   document.getElementById('delete-btn').style.display = 'none';
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  clearEventsList();
   document.getElementById('modal-overlay').classList.add('open');
 }
 
@@ -377,6 +448,8 @@ function openEditModal(btn) {
   document.getElementById('f-value').value   = co.value;
   document.getElementById('f-ownership').value = co.ownership;
   document.getElementById('f-notes').value   = co.notes || '';
+  clearEventsList();
+  (co.events || []).forEach(ev => addEventRow(ev.date, ev.label));
   document.getElementById('delete-btn').style.display = 'block';
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -397,6 +470,7 @@ function saveCompany(e) {
     value:     parseFloat(document.getElementById('f-value').value) || 0,
     ownership: parseFloat(document.getElementById('f-ownership').value) || 0,
     notes:     document.getElementById('f-notes').value.trim(),
+    events:    collectEvents(),
   };
 
   if (editingId !== null) {
