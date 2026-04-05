@@ -391,7 +391,7 @@ main {
 
 .card-metrics {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
   border-top: 1px solid var(--border);
   padding-top: 1rem;
@@ -738,6 +738,31 @@ main {
 .btn-add-event:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ===== Logo chips on card ===== */
+/* ===== Valuation row ===== */
+.valuation-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.valuation-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text3);
+}
+
+.valuation-val {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
 .card-logos {
   display: grid;
   grid-template-columns: 1fr 1fr;
