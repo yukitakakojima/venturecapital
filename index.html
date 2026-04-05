@@ -131,6 +131,16 @@
           <div class="metric-value ownership-val"></div>
         </div>
       </div>
+      <div class="card-logos">
+        <div class="logo-group">
+          <div class="logo-group-label">Investors</div>
+          <div class="logo-chips investor-chips"></div>
+        </div>
+        <div class="logo-group">
+          <div class="logo-group-label">Customers</div>
+          <div class="logo-chips customer-chips"></div>
+        </div>
+      </div>
       <div class="card-footer">
         <div class="timeline-wrap">
           <div class="timeline-labels">
@@ -207,6 +217,16 @@
             <label>Notable Events</label>
             <div id="events-list"></div>
             <button type="button" class="btn-add-event" onclick="addEventRow()">+ Add Event</button>
+          </div>
+          <div class="form-group form-group--full">
+            <label>Co-Investors</label>
+            <div id="investors-list"></div>
+            <button type="button" class="btn-add-event" onclick="addLogoRow('investors-list')">+ Add Investor</button>
+          </div>
+          <div class="form-group form-group--full">
+            <label>Key Customers</label>
+            <div id="customers-list"></div>
+            <button type="button" class="btn-add-event" onclick="addLogoRow('customers-list')">+ Add Customer</button>
           </div>
         </div>
         <div class="form-actions">

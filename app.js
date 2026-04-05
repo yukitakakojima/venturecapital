@@ -42,6 +42,14 @@ const DEFAULT_COMPANIES = [
       { date: '2022-10-01', label: 'Hit $1M ARR' },
       { date: '2023-07-14', label: 'Launched v2.0' },
     ],
+    investors: [
+      { name: 'Sequoia', logo: 'https://logo.clearbit.com/sequoiacap.com' },
+      { name: 'a16z', logo: 'https://logo.clearbit.com/a16z.com' },
+    ],
+    customers: [
+      { name: 'Salesforce', logo: 'https://logo.clearbit.com/salesforce.com' },
+      { name: 'HubSpot', logo: 'https://logo.clearbit.com/hubspot.com' },
+    ],
   },
   {
     id: 2,
@@ -57,6 +65,13 @@ const DEFAULT_COMPANIES = [
     events: [
       { date: '2023-01-10', label: 'Seed closed' },
       { date: '2023-09-05', label: 'First pilot deployment' },
+    ],
+    investors: [
+      { name: 'Breakthrough Energy', logo: 'https://logo.clearbit.com/breakthroughenergy.org' },
+    ],
+    customers: [
+      { name: 'Kenya Power', logo: '' },
+      { name: 'SolarCity', logo: 'https://logo.clearbit.com/solarcity.com' },
     ],
   },
   {
@@ -76,6 +91,15 @@ const DEFAULT_COMPANIES = [
       { date: '2023-01-10', label: '100th hospital partner' },
       { date: '2024-02-01', label: 'Series B closed' },
     ],
+    investors: [
+      { name: 'GV', logo: 'https://logo.clearbit.com/gv.com' },
+      { name: 'Andreessen Horowitz', logo: 'https://logo.clearbit.com/a16z.com' },
+    ],
+    customers: [
+      { name: 'Mayo Clinic', logo: 'https://logo.clearbit.com/mayoclinic.org' },
+      { name: 'Kaiser', logo: 'https://logo.clearbit.com/kaiserpermanente.org' },
+      { name: 'CVS', logo: 'https://logo.clearbit.com/cvshealth.com' },
+    ],
   },
   {
     id: 4,
@@ -92,6 +116,13 @@ const DEFAULT_COMPANIES = [
       { date: '2022-09-05', label: 'Series A closed' },
       { date: '2023-04-20', label: 'New CRO hired' },
     ],
+    investors: [
+      { name: 'Accel', logo: 'https://logo.clearbit.com/accel.com' },
+    ],
+    customers: [
+      { name: 'JPMorgan', logo: 'https://logo.clearbit.com/jpmorganchase.com' },
+      { name: 'Stripe', logo: 'https://logo.clearbit.com/stripe.com' },
+    ],
   },
   {
     id: 5,
@@ -107,6 +138,13 @@ const DEFAULT_COMPANIES = [
     events: [
       { date: '2023-06-18', label: 'Seed closed' },
       { date: '2024-01-09', label: 'First enterprise contract' },
+    ],
+    investors: [
+      { name: 'Lux Capital', logo: 'https://logo.clearbit.com/luxcapital.com' },
+    ],
+    customers: [
+      { name: 'DHL', logo: 'https://logo.clearbit.com/dhl.com' },
+      { name: 'Maersk', logo: 'https://logo.clearbit.com/maersk.com' },
     ],
   },
   {
@@ -125,6 +163,13 @@ const DEFAULT_COMPANIES = [
       { date: '2023-08-15', label: 'Phase II trials started' },
       { date: '2024-06-01', label: 'Positive interim data' },
     ],
+    investors: [
+      { name: 'ARCH Venture', logo: 'https://logo.clearbit.com/archventure.com' },
+      { name: 'Pfizer Ventures', logo: 'https://logo.clearbit.com/pfizer.com' },
+    ],
+    customers: [
+      { name: 'Johns Hopkins', logo: 'https://logo.clearbit.com/hopkinsmedicine.org' },
+    ],
   },
   {
     id: 7,
@@ -141,6 +186,14 @@ const DEFAULT_COMPANIES = [
       { date: '2021-04-12', label: 'Seed closed' },
       { date: '2022-11-01', label: 'Series A (follow-on)' },
       { date: '2024-08-20', label: 'Acquired by Coinbase' },
+    ],
+    investors: [
+      { name: 'Coinbase Ventures', logo: 'https://logo.clearbit.com/coinbase.com' },
+      { name: 'Paradigm', logo: 'https://logo.clearbit.com/paradigm.xyz' },
+    ],
+    customers: [
+      { name: 'Binance', logo: 'https://logo.clearbit.com/binance.com' },
+      { name: 'Kraken', logo: 'https://logo.clearbit.com/kraken.com' },
     ],
   },
 ];
@@ -363,6 +416,10 @@ function renderCards() {
     else if (moic >= 1) moicEl.classList.add('moic-neutral');
     else                moicEl.classList.add('moic-negative');
 
+    // Logo chips
+    renderLogoChips(clone.querySelector('.investor-chips'), company.investors || []);
+    renderLogoChips(clone.querySelector('.customer-chips'), company.customers || []);
+
     // Timeline event dots
     const today     = Date.now();
     const startTime = new Date(company.date + 'T00:00:00').getTime();
@@ -393,6 +450,33 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
+// ===== Logo chip rendering =====
+function renderLogoChips(container, items) {
+  container.innerHTML = '';
+  if (!items.length) {
+    container.innerHTML = '<span style="font-size:0.68rem;color:var(--text3)">—</span>';
+    return;
+  }
+  items.forEach(item => {
+    const chip = document.createElement('div');
+    chip.className = 'logo-chip';
+    if (item.logo) {
+      const img = document.createElement('img');
+      img.src = item.logo;
+      img.alt = item.name;
+      img.onerror = () => { img.style.display = 'none'; chip.textContent = initials(item.name); };
+      chip.appendChild(img);
+    } else {
+      chip.textContent = initials(item.name);
+    }
+    const tip = document.createElement('div');
+    tip.className = 'logo-tooltip';
+    tip.textContent = item.name;
+    chip.appendChild(tip);
+    container.appendChild(chip);
+  });
+}
+
 // ===== Events modal helpers =====
 function clearEventsList() {
   document.getElementById('events-list').innerHTML = '';
@@ -407,6 +491,26 @@ function addEventRow(date = '', label = '') {
     <button type="button" class="btn-remove-event" onclick="this.closest('.event-row').remove()">✕</button>
   `;
   document.getElementById('events-list').appendChild(row);
+}
+
+function addLogoRow(listId, name = '', logo = '') {
+  const row = document.createElement('div');
+  row.className = 'logo-row';
+  row.innerHTML = `
+    <input type="text"  class="lr-name" placeholder="Name"     value="${name}" />
+    <input type="url"   class="lr-logo" placeholder="Logo URL (optional)" value="${logo}" />
+    <button type="button" class="btn-remove-event" onclick="this.closest('.logo-row').remove()">✕</button>
+  `;
+  document.getElementById(listId).appendChild(row);
+}
+
+function collectLogos(listId) {
+  return Array.from(document.querySelectorAll(`#${listId} .logo-row`))
+    .map(row => ({
+      name: row.querySelector('.lr-name').value.trim(),
+      logo: row.querySelector('.lr-logo').value.trim(),
+    }))
+    .filter(item => item.name);
 }
 
 function collectEvents() {
@@ -427,6 +531,8 @@ function openAddModal() {
   document.getElementById('delete-btn').style.display = 'none';
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
   clearEventsList();
+  document.getElementById('investors-list').innerHTML = '';
+  document.getElementById('customers-list').innerHTML = '';
   document.getElementById('modal-overlay').classList.add('open');
 }
 
@@ -450,6 +556,10 @@ function openEditModal(btn) {
   document.getElementById('f-notes').value   = co.notes || '';
   clearEventsList();
   (co.events || []).forEach(ev => addEventRow(ev.date, ev.label));
+  document.getElementById('investors-list').innerHTML = '';
+  document.getElementById('customers-list').innerHTML = '';
+  (co.investors || []).forEach(i => addLogoRow('investors-list', i.name, i.logo));
+  (co.customers || []).forEach(c => addLogoRow('customers-list', c.name, c.logo));
   document.getElementById('delete-btn').style.display = 'block';
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -471,6 +581,8 @@ function saveCompany(e) {
     ownership: parseFloat(document.getElementById('f-ownership').value) || 0,
     notes:     document.getElementById('f-notes').value.trim(),
     events:    collectEvents(),
+    investors: collectLogos('investors-list'),
+    customers: collectLogos('customers-list'),
   };
 
   if (editingId !== null) {
