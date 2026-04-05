@@ -15,13 +15,28 @@
       <div class="gate-logo">◆</div>
       <div class="gate-title">Apex Ventures</div>
       <div class="gate-sub">Portfolio Dashboard</div>
-      <form onsubmit="checkPassword(event)">
+      <form onsubmit="
+        event.preventDefault();
+        var pw = document.getElementById('gate-input').value;
+        if (pw === 'yuki2026') {
+          sessionStorage.setItem('vc-auth','1');
+          document.getElementById('password-gate').style.display='none';
+        } else {
+          document.getElementById('gate-error').style.display='block';
+          document.getElementById('gate-input').value='';
+          document.getElementById('gate-input').focus();
+        }
+      ">
         <input type="password" id="gate-input" placeholder="Enter password" autocomplete="current-password" />
-        <div id="gate-error">Incorrect password</div>
+        <div id="gate-error" style="display:none">Incorrect password</div>
         <button type="submit">Unlock</button>
       </form>
     </div>
   </div>
+  <script>
+    if (sessionStorage.getItem('vc-auth') === '1')
+      document.getElementById('password-gate').style.display = 'none';
+  </script>
 
   <header>
     <div class="header-inner">
