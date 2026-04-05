@@ -491,17 +491,20 @@ function addEventRow(date = '', label = '') {
     <button type="button" class="btn-remove-event" onclick="this.closest('.event-row').remove()">✕</button>
   `;
   document.getElementById('events-list').appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function addLogoRow(listId, name = '', logo = '') {
   const row = document.createElement('div');
   row.className = 'logo-row';
   row.innerHTML = `
-    <input type="text"  class="lr-name" placeholder="Name"     value="${name}" />
-    <input type="url"   class="lr-logo" placeholder="Logo URL (optional)" value="${logo}" />
+    <input type="text" class="lr-name" placeholder="Name" value="${name}" />
+    <input type="text" class="lr-logo" placeholder="Logo URL (optional)" value="${logo}" />
     <button type="button" class="btn-remove-event" onclick="this.closest('.logo-row').remove()">✕</button>
   `;
   document.getElementById(listId).appendChild(row);
+  row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  row.querySelector('.lr-name').focus();
 }
 
 function collectLogos(listId) {
