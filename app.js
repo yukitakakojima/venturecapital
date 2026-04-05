@@ -2,12 +2,72 @@
 
 // ===== Portfolio companies =====
 const DEFAULT_COMPANIES = [
-  { id: 1, name: 'Ellipsis Health',    sector: 'Digital Health', stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
-  { id: 2, name: 'Leash Bio',          sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
-  { id: 3, name: 'Stately Bio',        sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
-  { id: 4, name: 'Waypoint Bio',       sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
-  { id: 5, name: 'Tacit Therapeutics', sector: 'Therapeutics',   stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
-  { id: 6, name: 'Rhino FCP',          sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
+  {
+    id: 1, name: 'Ellipsis Health', sector: 'Digital Health', stage: 'Seed', status: 'Active',
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    investors: [
+      { name: 'Khosla Ventures', logo: 'https://www.google.com/s2/favicons?domain=khoslaventures.com&sz=64' },
+      { name: 'CVS Health Ventures', logo: 'https://www.google.com/s2/favicons?domain=cvshealth.com&sz=64' },
+    ],
+    customers: [
+      { name: 'Cigna', logo: 'https://www.google.com/s2/favicons?domain=cigna.com&sz=64' },
+      { name: 'NVIDIA', logo: 'https://www.google.com/s2/favicons?domain=nvidia.com&sz=64' },
+    ],
+  },
+  {
+    id: 2, name: 'Leash Bio', sector: 'Biotech', stage: 'Seed', status: 'Active',
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    investors: [
+      { name: 'Springtide Ventures', logo: 'https://www.google.com/s2/favicons?domain=springtide.vc&sz=64' },
+      { name: 'Mitsui Global Investment', logo: 'https://www.google.com/s2/favicons?domain=mitsui.com&sz=64' },
+    ],
+    customers: [],
+  },
+  {
+    id: 3, name: 'Stately Bio', sector: 'Biotech', stage: 'Seed', status: 'Active',
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    investors: [
+      { name: 'AIX Ventures', logo: 'https://www.google.com/s2/favicons?domain=aixventures.com&sz=64' },
+      { name: 'Dimension Capital', logo: 'https://www.google.com/s2/favicons?domain=dimensioncapital.com&sz=64' },
+    ],
+    customers: [
+      { name: 'NY Blood Center', logo: 'https://www.google.com/s2/favicons?domain=nybc.org&sz=64' },
+    ],
+  },
+  {
+    id: 4, name: 'Waypoint Bio', sector: 'Biotech', stage: 'Seed', status: 'Active',
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    investors: [
+      { name: 'Hummingbird Ventures', logo: 'https://www.google.com/s2/favicons?domain=hummingbird.vc&sz=64' },
+      { name: 'Fifty Years', logo: 'https://www.google.com/s2/favicons?domain=fifty.vc&sz=64' },
+    ],
+    customers: [
+      { name: 'J&J Innovation (JLABS)', logo: 'https://www.google.com/s2/favicons?domain=jnjinnovation.com&sz=64' },
+    ],
+  },
+  {
+    id: 5, name: 'Tacit Therapeutics', sector: 'Therapeutics', stage: 'Seed', status: 'Active',
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    investors: [
+      { name: 'Civilization Ventures', logo: 'https://www.google.com/s2/favicons?domain=civ.vc&sz=64' },
+      { name: 'KdT Ventures', logo: 'https://www.google.com/s2/favicons?domain=kdtventures.com&sz=64' },
+    ],
+    customers: [
+      { name: 'Eisai', logo: 'https://www.google.com/s2/favicons?domain=eisai.com&sz=64' },
+    ],
+  },
+  {
+    id: 6, name: 'Rhino FCP', sector: 'Biotech', stage: 'Seed', status: 'Active',
+    date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [],
+    investors: [
+      { name: 'AlleyCorp', logo: 'https://www.google.com/s2/favicons?domain=alleycorp.com&sz=64' },
+      { name: 'LionBird', logo: 'https://www.google.com/s2/favicons?domain=lionbird.vc&sz=64' },
+    ],
+    customers: [
+      { name: 'AbbVie', logo: 'https://www.google.com/s2/favicons?domain=abbvie.com&sz=64' },
+      { name: 'Sheba Medical Center', logo: 'https://www.google.com/s2/favicons?domain=shebamedical.org&sz=64' },
+    ],
+  },
 ];
 
 // Palette for company logos
@@ -25,7 +85,7 @@ let editingId = null;
 
 function loadData() {
   try {
-    const saved = localStorage.getItem('vc-portfolio-v2');
+    const saved = localStorage.getItem('vc-portfolio-v3');
     return saved ? JSON.parse(saved) : DEFAULT_COMPANIES;
   } catch {
     return DEFAULT_COMPANIES;
@@ -33,7 +93,7 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage.setItem('vc-portfolio-v2', JSON.stringify(companies));
+  localStorage.setItem('vc-portfolio-v3', JSON.stringify(companies));
   syncPush();
 }
 
