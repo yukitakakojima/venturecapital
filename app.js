@@ -201,6 +201,7 @@ function loadData() {
 
 function saveData() {
   localStorage.setItem('vc-portfolio', JSON.stringify(companies));
+  syncPush();
 }
 
 // ===== Formatting helpers =====
@@ -615,6 +616,118 @@ function deleteCompany() {
 }
 
 // ===== Full refresh =====
+// ===== Cloud Sync (JSONBin) =====
+const JSONBIN_BASE = 'https://api.jsonbin.io/v3';
+
+function getSyncConfig() {
+  return {
+    key:   localStorage.getItem('vc-sync-key')   || '',
+    binId: localStorage.getItem('vc-sync-bin-id') || '',
+  };
+}
+
+function setSyncStatus(msg, ok) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = ok === false ? 'var(--red)' : ok === true ? 'var(--green)' : 'var(--text3)';
+}
+
+async function syncPush() {
+  const { key, binId } = getSyncConfig();
+  if (!key || !binId) return;
+  try {
+    setSyncStatus('Saving…', null);
+    await fetch(`${JSONBIN_BASE}/b/${binId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': key },
+      body: JSON.stringify(companies),
+    });
+    setSyncStatus('Synced ✓', true);
+  } catch {
+    setSyncStatus('Sync failed', false);
+  }
+}
+
+async function syncPull() {
+  const { key, binId } = getSyncConfig();
+  if (!key || !binId) return;
+  try {
+    setSyncStatus('Loading…', null);
+    const res  = await fetch(`${JSONBIN_BASE}/b/${binId}/latest`, {
+      headers: { 'X-Master-Key': key },
+    });
+    const json = await res.json();
+    if (Array.isArray(json.record)) {
+      companies = json.record;
+      saveData();
+      refresh();
+      setSyncStatus('Synced ✓', true);
+    }
+  } catch {
+    setSyncStatus('Sync failed', false);
+  }
+}
+
+function openSyncModal() {
+  const { key, binId } = getSyncConfig();
+  document.getElementById('sync-api-key').value = key;
+  document.getElementById('sync-bin-id').value  = binId;
+  document.getElementById('sync-modal-overlay').classList.add('open');
+}
+
+function closeSyncModal() {
+  document.getElementById('sync-modal-overlay').classList.remove('open');
+}
+
+async function connectSync() {
+  const key   = document.getElementById('sync-api-key').value.trim();
+  const binId = document.getElementById('sync-bin-id').value.trim();
+  if (!key) { alert('Please enter your API key.'); return; }
+
+  localStorage.setItem('vc-sync-key', key);
+
+  if (binId) {
+    // Existing bin — pull data from it
+    localStorage.setItem('vc-sync-bin-id', binId);
+    closeSyncModal();
+    await syncPull();
+  } else {
+    // No bin yet — create one
+    try {
+      setSyncStatus('Creating bin…', null);
+      const res  = await fetch(`${JSONBIN_BASE}/b`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': key,
+          'X-Bin-Name':   'vc-portfolio',
+          'X-Bin-Private': 'true',
+        },
+        body: JSON.stringify(companies),
+      });
+      const json = await res.json();
+      const newId = json.metadata?.id;
+      if (!newId) throw new Error('No bin ID returned');
+      localStorage.setItem('vc-sync-bin-id', newId);
+      document.getElementById('sync-bin-id').value = newId;
+      setSyncStatus('Synced ✓', true);
+      closeSyncModal();
+    } catch (e) {
+      setSyncStatus('Failed to create bin', false);
+      alert('Could not create bin. Check your API key and try again.');
+    }
+  }
+}
+
+function clearSync() {
+  if (!confirm('Disconnect cloud sync? Your local data stays.')) return;
+  localStorage.removeItem('vc-sync-key');
+  localStorage.removeItem('vc-sync-bin-id');
+  setSyncStatus('', null);
+  closeSyncModal();
+}
+
 // ===== Export / Import =====
 function exportData() {
   const json = JSON.stringify(companies, null, 2);
@@ -663,3 +776,5 @@ document.addEventListener('keydown', e => {
 
 // ===== Init =====
 refresh();
+// Pull latest data from cloud on load (if sync configured)
+syncPull();
