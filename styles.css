@@ -88,18 +88,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0d0f14;
-  --bg2: #141720;
-  --bg3: #1c2030;
-  --border: #2a2f42;
+  --bg: #f2ece0;
+  --bg2: #ece4d4;
+  --bg3: #e2d9c8;
+  --border: #cec3b0;
   --accent: #6c63ff;
-  --accent2: #4ecdc4;
-  --green: #22c55e;
-  --red: #ef4444;
-  --yellow: #f59e0b;
-  --text: #e8eaf0;
-  --text2: #8b90a7;
-  --text3: #5a6080;
+  --accent2: #2a9d8f;
+  --green: #2d9e57;
+  --red: #d94f3d;
+  --yellow: #c98a1a;
+  --text: #2c2318;
+  --text2: #6b5c48;
+  --text3: #9e8c78;
   --card-radius: 14px;
   --font: 'Inter', system-ui, -apple-system, sans-serif;
 }
