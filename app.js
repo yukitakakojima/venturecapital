@@ -1,7 +1,10 @@
 'use strict';
 
-// ===== Default portfolio data (7 companies) =====
+// ===== Default portfolio data =====
+// Shown only on first load when localStorage has no saved data.
 const DEFAULT_COMPANIES = [
+  // Replace these with your real companies — they only show if
+  // no saved data exists yet. Your edits are saved automatically.
   {
     id: 1,
     name: 'TechFlow AI',
