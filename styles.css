@@ -860,7 +860,7 @@ main {
 }
 
 /* Sync modal plain inputs */
-#sync-api-key, #sync-bin-id {
+#sync-db-url {
   width: 100%;
   background: var(--bg3);
   border: 1px solid var(--border);
@@ -872,7 +872,7 @@ main {
   outline: none;
   transition: border-color 0.15s;
 }
-#sync-api-key:focus, #sync-bin-id:focus { border-color: var(--accent); }
+#sync-db-url:focus { border-color: var(--accent); }
 
 /* ===== Responsive ===== */
 @media (max-width: 1100px) {

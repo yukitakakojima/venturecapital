@@ -261,22 +261,19 @@
   <div class="modal-overlay" id="sync-modal-overlay" onclick="closeSyncModal()">
     <div class="modal" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h3>☁ Cloud Sync (JSONBin)</h3>
+        <h3>☁ Firebase Sync</h3>
         <button class="modal-close" onclick="closeSyncModal()">✕</button>
       </div>
       <div style="font-size:0.82rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.6;">
-        Sync your portfolio across any browser or device.<br>
-        1. Sign up free at <strong>jsonbin.io</strong><br>
-        2. Create an API key under <em>API Keys</em><br>
-        3. Paste it below and click <strong>Connect</strong>
-      </div>
-      <div class="form-group" style="margin-bottom:1rem;">
-        <label>JSONBin Master API Key</label>
-        <input type="password" id="sync-api-key" placeholder="$2b$10$..." />
+        <strong>One-time setup:</strong><br>
+        1. Go to <strong>console.firebase.google.com</strong> → New project<br>
+        2. Build → Realtime Database → Create database → Start in test mode<br>
+        3. Copy your Database URL (looks like <em>https://your-project-default-rtdb.firebaseio.com</em>)<br>
+        4. Paste below and click Connect
       </div>
       <div class="form-group" style="margin-bottom:1.5rem;">
-        <label>Bin ID <span style="color:var(--text3);font-size:0.68rem;">(auto-created on first connect)</span></label>
-        <input type="text" id="sync-bin-id" placeholder="Will be filled automatically" />
+        <label>Firebase Database URL</label>
+        <input type="text" id="sync-db-url" placeholder="https://your-project-default-rtdb.firebaseio.com" />
       </div>
       <div class="form-actions">
         <button type="button" class="btn-danger" onclick="clearSync()" style="display:inline-block">Disconnect</button>
