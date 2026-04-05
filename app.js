@@ -612,6 +612,38 @@ function deleteCompany() {
 }
 
 // ===== Full refresh =====
+// ===== Export / Import =====
+function exportData() {
+  const json = JSON.stringify(companies, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'portfolio-backup-' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!Array.isArray(parsed)) throw new Error('Invalid format');
+      companies = parsed;
+      saveData();
+      refresh();
+      alert('Portfolio imported successfully!');
+    } catch {
+      alert('Invalid backup file. Please use a file exported from this app.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
 function refresh() {
   updateSummary();
   renderCards();

@@ -49,6 +49,8 @@
       </div>
       <div class="header-meta">
         <span id="last-updated"></span>
+        <button class="btn-secondary" onclick="exportData()" title="Download your data as a backup file">↓ Export</button>
+        <label class="btn-secondary" style="cursor:pointer" title="Restore from a backup file">↑ Import<input type="file" accept=".json" onchange="importData(event)" style="display:none"/></label>
         <button class="btn-primary" onclick="openAddModal()">+ Add Company</button>
       </div>
     </div>
