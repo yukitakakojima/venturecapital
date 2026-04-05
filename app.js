@@ -1,180 +1,13 @@
 'use strict';
 
-// ===== Default portfolio data =====
-// Shown only on first load when localStorage has no saved data.
+// ===== Portfolio companies =====
 const DEFAULT_COMPANIES = [
-  // Replace these with your real companies — they only show if
-  // no saved data exists yet. Your edits are saved automatically.
-  {
-    id: 1,
-    name: 'TechFlow AI',
-    sector: 'AI / SaaS',
-    stage: 'Series A',
-    status: 'Active',
-    date: '2022-03-15',
-    invested: 2500000,
-    value: 9800000,
-    ownership: 14.5,
-    notes: 'Leading AI workflow automation platform. ARR growing 3× YoY.',
-    events: [
-      { date: '2022-03-15', label: 'Series A closed' },
-      { date: '2022-10-01', label: 'Hit $1M ARR' },
-      { date: '2023-07-14', label: 'Launched v2.0' },
-    ],
-    investors: [
-      { name: 'Sequoia', logo: 'https://www.google.com/s2/favicons?domain=sequoiacap.com&sz=64' },
-      { name: 'a16z', logo: 'https://www.google.com/s2/favicons?domain=a16z.com&sz=64' },
-    ],
-    customers: [
-      { name: 'Salesforce', logo: 'https://www.google.com/s2/favicons?domain=salesforce.com&sz=64' },
-      { name: 'HubSpot', logo: 'https://www.google.com/s2/favicons?domain=hubspot.com&sz=64' },
-    ],
-  },
-  {
-    id: 2,
-    name: 'GreenPath Energy',
-    sector: 'CleanTech',
-    stage: 'Seed',
-    status: 'Active',
-    date: '2023-01-10',
-    invested: 750000,
-    value: 1800000,
-    ownership: 18.0,
-    notes: 'Modular solar + battery units for emerging markets.',
-    events: [
-      { date: '2023-01-10', label: 'Seed closed' },
-      { date: '2023-09-05', label: 'First pilot deployment' },
-    ],
-    investors: [
-      { name: 'Breakthrough Energy', logo: 'https://www.google.com/s2/favicons?domain=breakthroughenergy.org&sz=64' },
-    ],
-    customers: [
-      { name: 'Kenya Power', logo: '' },
-      { name: 'SolarCity', logo: 'https://www.google.com/s2/favicons?domain=solarcity.com&sz=64' },
-    ],
-  },
-  {
-    id: 3,
-    name: 'HealthSync',
-    sector: 'HealthTech',
-    stage: 'Series B',
-    status: 'Active',
-    date: '2021-07-22',
-    invested: 5000000,
-    value: 22000000,
-    ownership: 9.2,
-    notes: 'Remote patient monitoring. FDA cleared, 200+ hospital partnerships.',
-    events: [
-      { date: '2021-07-22', label: 'Initial investment' },
-      { date: '2022-03-18', label: 'FDA clearance' },
-      { date: '2023-01-10', label: '100th hospital partner' },
-      { date: '2024-02-01', label: 'Series B closed' },
-    ],
-    investors: [
-      { name: 'GV', logo: 'https://www.google.com/s2/favicons?domain=gv.com&sz=64' },
-      { name: 'Andreessen Horowitz', logo: 'https://www.google.com/s2/favicons?domain=a16z.com&sz=64' },
-    ],
-    customers: [
-      { name: 'Mayo Clinic', logo: 'https://www.google.com/s2/favicons?domain=mayoclinic.org&sz=64' },
-      { name: 'Kaiser', logo: 'https://www.google.com/s2/favicons?domain=kaiserpermanente.org&sz=64' },
-      { name: 'CVS', logo: 'https://www.google.com/s2/favicons?domain=cvshealth.com&sz=64' },
-    ],
-  },
-  {
-    id: 4,
-    name: 'DataVault',
-    sector: 'Cybersecurity',
-    stage: 'Series A',
-    status: 'Watchlist',
-    date: '2022-09-05',
-    invested: 3000000,
-    value: 2800000,
-    ownership: 11.0,
-    notes: 'Zero-trust data security. Sales cycle longer than projected.',
-    events: [
-      { date: '2022-09-05', label: 'Series A closed' },
-      { date: '2023-04-20', label: 'New CRO hired' },
-    ],
-    investors: [
-      { name: 'Accel', logo: 'https://www.google.com/s2/favicons?domain=accel.com&sz=64' },
-    ],
-    customers: [
-      { name: 'JPMorgan', logo: 'https://www.google.com/s2/favicons?domain=jpmorganchase.com&sz=64' },
-      { name: 'Stripe', logo: 'https://www.google.com/s2/favicons?domain=stripe.com&sz=64' },
-    ],
-  },
-  {
-    id: 5,
-    name: 'SpaceLogix',
-    sector: 'DeepTech / Logistics',
-    stage: 'Seed',
-    status: 'Active',
-    date: '2023-06-18',
-    invested: 500000,
-    value: 1400000,
-    ownership: 22.5,
-    notes: 'Satellite-powered supply chain visibility for remote regions.',
-    events: [
-      { date: '2023-06-18', label: 'Seed closed' },
-      { date: '2024-01-09', label: 'First enterprise contract' },
-    ],
-    investors: [
-      { name: 'Lux Capital', logo: 'https://www.google.com/s2/favicons?domain=luxcapital.com&sz=64' },
-    ],
-    customers: [
-      { name: 'DHL', logo: 'https://www.google.com/s2/favicons?domain=dhl.com&sz=64' },
-      { name: 'Maersk', logo: 'https://www.google.com/s2/favicons?domain=maersk.com&sz=64' },
-    ],
-  },
-  {
-    id: 6,
-    name: 'NeuralWave',
-    sector: 'Biotech',
-    stage: 'Series A',
-    status: 'Active',
-    date: '2022-11-30',
-    invested: 4000000,
-    value: 7500000,
-    ownership: 8.5,
-    notes: 'Non-invasive BCI for neurological rehabilitation. Phase II trials ongoing.',
-    events: [
-      { date: '2022-11-30', label: 'Series A closed' },
-      { date: '2023-08-15', label: 'Phase II trials started' },
-      { date: '2024-06-01', label: 'Positive interim data' },
-    ],
-    investors: [
-      { name: 'ARCH Venture', logo: 'https://www.google.com/s2/favicons?domain=archventure.com&sz=64' },
-      { name: 'Pfizer Ventures', logo: 'https://www.google.com/s2/favicons?domain=pfizer.com&sz=64' },
-    ],
-    customers: [
-      { name: 'Johns Hopkins', logo: 'https://www.google.com/s2/favicons?domain=hopkinsmedicine.org&sz=64' },
-    ],
-  },
-  {
-    id: 7,
-    name: 'CryptoShield',
-    sector: 'Web3 / Security',
-    stage: 'Seed',
-    status: 'Exited',
-    date: '2021-04-12',
-    invested: 400000,
-    value: 3200000,
-    ownership: 0,
-    notes: 'Successfully exited via acquisition by Coinbase in Q3 2024. 8× return.',
-    events: [
-      { date: '2021-04-12', label: 'Seed closed' },
-      { date: '2022-11-01', label: 'Series A (follow-on)' },
-      { date: '2024-08-20', label: 'Acquired by Coinbase' },
-    ],
-    investors: [
-      { name: 'Coinbase Ventures', logo: 'https://www.google.com/s2/favicons?domain=coinbase.com&sz=64' },
-      { name: 'Paradigm', logo: 'https://www.google.com/s2/favicons?domain=paradigm.xyz&sz=64' },
-    ],
-    customers: [
-      { name: 'Binance', logo: 'https://www.google.com/s2/favicons?domain=binance.com&sz=64' },
-      { name: 'Kraken', logo: 'https://www.google.com/s2/favicons?domain=kraken.com&sz=64' },
-    ],
-  },
+  { id: 1, name: 'Ellipsis Health',    sector: 'Digital Health', stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
+  { id: 2, name: 'Leash Bio',          sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
+  { id: 3, name: 'Stately Bio',        sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
+  { id: 4, name: 'Waypoint Bio',       sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
+  { id: 5, name: 'Tacit Therapeutics', sector: 'Therapeutics',   stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
+  { id: 6, name: 'Rhino FCP',          sector: 'Biotech',        stage: 'Seed', status: 'Active', date: '2024-01-01', invested: 0, value: 0, ownership: 0, notes: '', events: [], investors: [], customers: [] },
 ];
 
 // Palette for company logos
@@ -192,7 +25,7 @@ let editingId = null;
 
 function loadData() {
   try {
-    const saved = localStorage.getItem('vc-portfolio');
+    const saved = localStorage.getItem('vc-portfolio-v2');
     return saved ? JSON.parse(saved) : DEFAULT_COMPANIES;
   } catch {
     return DEFAULT_COMPANIES;
@@ -200,7 +33,7 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage.setItem('vc-portfolio', JSON.stringify(companies));
+  localStorage.setItem('vc-portfolio-v2', JSON.stringify(companies));
   syncPush();
 }
 
