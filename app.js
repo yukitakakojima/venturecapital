@@ -43,12 +43,12 @@ const DEFAULT_COMPANIES = [
       { date: '2023-07-14', label: 'Launched v2.0' },
     ],
     investors: [
-      { name: 'Sequoia', logo: 'https://logo.clearbit.com/sequoiacap.com' },
-      { name: 'a16z', logo: 'https://logo.clearbit.com/a16z.com' },
+      { name: 'Sequoia', logo: 'https://www.google.com/s2/favicons?domain=sequoiacap.com' },&sz=64
+      { name: 'a16z', logo: 'https://www.google.com/s2/favicons?domain=a16z.com' },&sz=64
     ],
     customers: [
-      { name: 'Salesforce', logo: 'https://logo.clearbit.com/salesforce.com' },
-      { name: 'HubSpot', logo: 'https://logo.clearbit.com/hubspot.com' },
+      { name: 'Salesforce', logo: 'https://www.google.com/s2/favicons?domain=salesforce.com' },&sz=64
+      { name: 'HubSpot', logo: 'https://www.google.com/s2/favicons?domain=hubspot.com' },&sz=64
     ],
   },
   {
@@ -67,11 +67,11 @@ const DEFAULT_COMPANIES = [
       { date: '2023-09-05', label: 'First pilot deployment' },
     ],
     investors: [
-      { name: 'Breakthrough Energy', logo: 'https://logo.clearbit.com/breakthroughenergy.org' },
+      { name: 'Breakthrough Energy', logo: 'https://www.google.com/s2/favicons?domain=breakthroughenergy.org' },&sz=64
     ],
     customers: [
       { name: 'Kenya Power', logo: '' },
-      { name: 'SolarCity', logo: 'https://logo.clearbit.com/solarcity.com' },
+      { name: 'SolarCity', logo: 'https://www.google.com/s2/favicons?domain=solarcity.com' },&sz=64
     ],
   },
   {
@@ -92,13 +92,13 @@ const DEFAULT_COMPANIES = [
       { date: '2024-02-01', label: 'Series B closed' },
     ],
     investors: [
-      { name: 'GV', logo: 'https://logo.clearbit.com/gv.com' },
-      { name: 'Andreessen Horowitz', logo: 'https://logo.clearbit.com/a16z.com' },
+      { name: 'GV', logo: 'https://www.google.com/s2/favicons?domain=gv.com' },&sz=64
+      { name: 'Andreessen Horowitz', logo: 'https://www.google.com/s2/favicons?domain=a16z.com' },&sz=64
     ],
     customers: [
-      { name: 'Mayo Clinic', logo: 'https://logo.clearbit.com/mayoclinic.org' },
-      { name: 'Kaiser', logo: 'https://logo.clearbit.com/kaiserpermanente.org' },
-      { name: 'CVS', logo: 'https://logo.clearbit.com/cvshealth.com' },
+      { name: 'Mayo Clinic', logo: 'https://www.google.com/s2/favicons?domain=mayoclinic.org' },&sz=64
+      { name: 'Kaiser', logo: 'https://www.google.com/s2/favicons?domain=kaiserpermanente.org' },&sz=64
+      { name: 'CVS', logo: 'https://www.google.com/s2/favicons?domain=cvshealth.com' },&sz=64
     ],
   },
   {
@@ -117,11 +117,11 @@ const DEFAULT_COMPANIES = [
       { date: '2023-04-20', label: 'New CRO hired' },
     ],
     investors: [
-      { name: 'Accel', logo: 'https://logo.clearbit.com/accel.com' },
+      { name: 'Accel', logo: 'https://www.google.com/s2/favicons?domain=accel.com' },&sz=64
     ],
     customers: [
-      { name: 'JPMorgan', logo: 'https://logo.clearbit.com/jpmorganchase.com' },
-      { name: 'Stripe', logo: 'https://logo.clearbit.com/stripe.com' },
+      { name: 'JPMorgan', logo: 'https://www.google.com/s2/favicons?domain=jpmorganchase.com' },&sz=64
+      { name: 'Stripe', logo: 'https://www.google.com/s2/favicons?domain=stripe.com' },&sz=64
     ],
   },
   {
@@ -140,11 +140,11 @@ const DEFAULT_COMPANIES = [
       { date: '2024-01-09', label: 'First enterprise contract' },
     ],
     investors: [
-      { name: 'Lux Capital', logo: 'https://logo.clearbit.com/luxcapital.com' },
+      { name: 'Lux Capital', logo: 'https://www.google.com/s2/favicons?domain=luxcapital.com' },&sz=64
     ],
     customers: [
-      { name: 'DHL', logo: 'https://logo.clearbit.com/dhl.com' },
-      { name: 'Maersk', logo: 'https://logo.clearbit.com/maersk.com' },
+      { name: 'DHL', logo: 'https://www.google.com/s2/favicons?domain=dhl.com' },&sz=64
+      { name: 'Maersk', logo: 'https://www.google.com/s2/favicons?domain=maersk.com' },&sz=64
     ],
   },
   {
@@ -164,11 +164,11 @@ const DEFAULT_COMPANIES = [
       { date: '2024-06-01', label: 'Positive interim data' },
     ],
     investors: [
-      { name: 'ARCH Venture', logo: 'https://logo.clearbit.com/archventure.com' },
-      { name: 'Pfizer Ventures', logo: 'https://logo.clearbit.com/pfizer.com' },
+      { name: 'ARCH Venture', logo: 'https://www.google.com/s2/favicons?domain=archventure.com' },&sz=64
+      { name: 'Pfizer Ventures', logo: 'https://www.google.com/s2/favicons?domain=pfizer.com' },&sz=64
     ],
     customers: [
-      { name: 'Johns Hopkins', logo: 'https://logo.clearbit.com/hopkinsmedicine.org' },
+      { name: 'Johns Hopkins', logo: 'https://www.google.com/s2/favicons?domain=hopkinsmedicine.org' },&sz=64
     ],
   },
   {
@@ -188,12 +188,12 @@ const DEFAULT_COMPANIES = [
       { date: '2024-08-20', label: 'Acquired by Coinbase' },
     ],
     investors: [
-      { name: 'Coinbase Ventures', logo: 'https://logo.clearbit.com/coinbase.com' },
-      { name: 'Paradigm', logo: 'https://logo.clearbit.com/paradigm.xyz' },
+      { name: 'Coinbase Ventures', logo: 'https://www.google.com/s2/favicons?domain=coinbase.com' },&sz=64
+      { name: 'Paradigm', logo: 'https://www.google.com/s2/favicons?domain=paradigm.xyz' },&sz=64
     ],
     customers: [
-      { name: 'Binance', logo: 'https://logo.clearbit.com/binance.com' },
-      { name: 'Kraken', logo: 'https://logo.clearbit.com/kraken.com' },
+      { name: 'Binance', logo: 'https://www.google.com/s2/favicons?domain=binance.com' },&sz=64
+      { name: 'Kraken', logo: 'https://www.google.com/s2/favicons?domain=kraken.com' },&sz=64
     ],
   },
 ];
@@ -515,7 +515,7 @@ function addLogoRow(listId, name, logo) {
   const logoIn = document.createElement('input');
   logoIn.type = 'text';
   logoIn.className = 'lr-logo';
-  logoIn.placeholder = 'Logo URL (optional)';
+  logoIn.placeholder = 'google.com/s2/favicons?domain=stripe.com&sz=64';
   logoIn.value = logo;
   logoIn.style.cssText = inputStyle + 'flex:1.6;';
 
