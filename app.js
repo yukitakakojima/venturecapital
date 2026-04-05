@@ -2,7 +2,7 @@
 
 // ===== Password Gate =====
 // Change this to your own password:
-const PASSWORD = 'ventures2024';
+const PASSWORD = 'yuki2026';
 
 function checkPassword(e) {
   e.preventDefault();
