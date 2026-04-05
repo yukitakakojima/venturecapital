@@ -494,17 +494,42 @@ function addEventRow(date = '', label = '') {
   row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function addLogoRow(listId, name = '', logo = '') {
+function addLogoRow(listId, name, logo) {
+  name = name || '';
+  logo = logo || '';
+  const list = document.getElementById(listId);
+  if (!list) return;
+
+  const inputStyle = 'flex:1;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 10px;font-size:13px;font-family:inherit;outline:none;';
   const row = document.createElement('div');
   row.className = 'logo-row';
-  row.innerHTML = `
-    <input type="text" class="lr-name" placeholder="Name" value="${name}" />
-    <input type="text" class="lr-logo" placeholder="Logo URL (optional)" value="${logo}" />
-    <button type="button" class="btn-remove-event" onclick="this.closest('.logo-row').remove()">✕</button>
-  `;
-  document.getElementById(listId).appendChild(row);
-  row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  row.querySelector('.lr-name').focus();
+  row.style.cssText = 'display:flex;gap:6px;margin-bottom:8px;align-items:center;';
+
+  const nameIn = document.createElement('input');
+  nameIn.type = 'text';
+  nameIn.className = 'lr-name';
+  nameIn.placeholder = 'Name';
+  nameIn.value = name;
+  nameIn.style.cssText = inputStyle;
+
+  const logoIn = document.createElement('input');
+  logoIn.type = 'text';
+  logoIn.className = 'lr-logo';
+  logoIn.placeholder = 'Logo URL (optional)';
+  logoIn.value = logo;
+  logoIn.style.cssText = inputStyle + 'flex:1.6;';
+
+  const del = document.createElement('button');
+  del.type = 'button';
+  del.textContent = '✕';
+  del.style.cssText = 'flex-shrink:0;width:28px;height:28px;background:none;border:1px solid var(--border);border-radius:6px;color:var(--text3);cursor:pointer;font-size:12px;';
+  del.onclick = () => row.remove();
+
+  row.appendChild(nameIn);
+  row.appendChild(logoIn);
+  row.appendChild(del);
+  list.appendChild(row);
+  nameIn.focus();
 }
 
 function collectLogos(listId) {
