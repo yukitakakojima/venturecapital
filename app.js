@@ -500,6 +500,7 @@ function saveCompany(e) {
   saveData();
   closeModal();
   refresh();
+  showToast('Saved ✓');
 }
 
 function deleteCompany() {
@@ -622,9 +623,22 @@ function importData(event) {
 function refresh() {
   updateSummary();
   renderCards();
-  updateCharts();
-  document.getElementById('last-updated').textContent =
-    'Updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  try { updateCharts(); } catch (e) { console.error('Chart error:', e); }
+}
+
+// ===== Toast notification =====
+function showToast(msg) {
+  let toast = document.getElementById('vc-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'vc-toast';
+    toast.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;background:var(--accent);color:#fff;padding:0.6rem 1.1rem;border-radius:10px;font-size:0.85rem;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.2s;pointer-events:none;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 1800);
 }
 
 // ===== Keyboard shortcut =====
